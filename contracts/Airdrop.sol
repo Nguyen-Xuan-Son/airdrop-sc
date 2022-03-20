@@ -79,12 +79,13 @@ contract STokenAirdrop is Ownable {
 
     function claim(
         bytes memory _signature,
-        address _to,
         uint256 _amount,
         uint256 _nonce
     ) external {
-        bytes32 ethSignedMessage = getEthSignedMessage(_to, _amount, _nonce);
-        bytes32 txHash = getTxHash(_to, _amount, _nonce);
+        address sender = msg.sender;
+        bytes32 ethSignedMessage = getEthSignedMessage(sender, _amount, _nonce);
+        bytes32 txHash = getTxHash(sender, _amount, _nonce);
+
         require(
             ECDSA.recover(ethSignedMessage, _signature) == _signer,
             "NOT_SIGNED_BY_OWNER!"
@@ -93,15 +94,13 @@ contract STokenAirdrop is Ownable {
 
         executedTxs[txHash] = true;
 
-        uint256 toClaim = _amount.sub(claimed[_to]);
-        require(toClaim > 0, "NOTHING_TO_CLAIM!");
         require(
-            sToken.transferFrom(tokenOwner, _to, toClaim),
+            sToken.transferFrom(tokenOwner, sender, _amount),
             "TRANFER_STK_FAILED"
         );
 
-        claimed[_to] = claimed[_to].add(toClaim);
+        claimed[sender] = claimed[sender].add(_amount);
 
-        emit Claimed(_to, toClaim);
+        emit Claimed(sender, _amount);
     }
 }
