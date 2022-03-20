@@ -21,7 +21,7 @@ contract SToken is ERC20, AccessControl {
     uint256 public constant COMMUNITY_INDEX = 5;
 
     // 100M TOTAL SUPPLY
-    uint256[7] private _pools_amount = [
+    uint256[7] private POOLS_AMOUNT = [
         30000000 * (10**18), // MARKETPLACE REWARD.
         25000000 * (10**18), // TEAM.
         13000000 * (10**18), // PUBLIC SALE.
@@ -43,22 +43,22 @@ contract SToken is ERC20, AccessControl {
     ) ERC20("S TOKEN", "STK") {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
 
-        _mint(MARKETPLACE, _pools_amount[MARKETPLACE_INDEX]);
+        _mint(MARKETPLACE, POOLS_AMOUNT[MARKETPLACE_INDEX]);
         mintedPools[MARKETPLACE_INDEX] = true;
 
-        _mint(S_TEAM, _pools_amount[S_TEAM_INDEX]);
+        _mint(S_TEAM, POOLS_AMOUNT[S_TEAM_INDEX]);
         mintedPools[S_TEAM_INDEX] = true;
 
-        _mint(PUBLIC_SALE, _pools_amount[PUBLIC_SALE_INDEX]);
+        _mint(PUBLIC_SALE, POOLS_AMOUNT[PUBLIC_SALE_INDEX]);
         mintedPools[PUBLIC_SALE_INDEX] = true;
 
-        _mint(MARKETING_CREATORS, _pools_amount[MARKETING_INDEX]);
+        _mint(MARKETING_CREATORS, POOLS_AMOUNT[MARKETING_INDEX]);
         mintedPools[MARKETING_INDEX] = true;
 
-        _mint(SEED_INVESTORS, _pools_amount[SEED_INVESTOR_INDEX]);
+        _mint(SEED_INVESTORS, POOLS_AMOUNT[SEED_INVESTOR_INDEX]);
         mintedPools[SEED_INVESTOR_INDEX] = true;
 
-        _mint(COMMUNITY, _pools_amount[COMMUNITY_INDEX]);
+        _mint(COMMUNITY, POOLS_AMOUNT[COMMUNITY_INDEX]);
         mintedPools[COMMUNITY_INDEX] = true;
     }
 
